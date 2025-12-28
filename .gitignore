@@ -1,0 +1,49 @@
+# Security
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+.venv/
+env/
+venv/
+ENV/
+
+# Database
+*.db
+*.sqlite3
+data/
+!data/.keep
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

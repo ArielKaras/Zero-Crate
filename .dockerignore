@@ -1,0 +1,23 @@
+# IGNORE EVERYTHING
+*
+
+# Allow Directories
+!backend/
+!core/
+!miners/
+!tests/
+
+# Allow Files
+!requirements.txt
+!start_zerocrate.sh
+!cleanup.sh
+!.env.example
+
+# Explicitly Ignore (Redundant but safe)
+.env
+.git
+.venv
+data/
+__pycache__
+Dockerfile
+docker-compose.yml

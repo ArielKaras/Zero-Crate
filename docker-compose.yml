@@ -1,0 +1,19 @@
+services:
+  zerocrate:
+    build: .
+    image: zerocrate:local
+    user: "10001:10001" # Matches appuser UID/GID if strictly defined, or let the Dockerfile USER directive handle it
+    ports:
+      - "8000:8000"
+    environment:
+      - LOG_LEVEL=INFO
+    volumes:
+      # Mount data directory for persistence locally
+      # In production, this would be an external database URL
+      - ./data:/app/data
+    read_only: false # Python needs to write pyc files potentially, though we disabled cache.. actually app writes to data/
+    # Security: Drop all capabilities, add only what is needed (none usually for web app)
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true

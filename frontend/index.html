@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZeroCrate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+            colors: {
+              theme: {
+                bg: '#09090b',       /* Zinc 950 */
+                surface: '#18181b',  /* Zinc 900 */
+                border: '#27272a',   /* Zinc 800 */
+                fg: '#e4e4e7',       /* Zinc 200 */
+                dim: '#71717a',      /* Zinc 500 */
+                accent: '#10b981',   /* Emerald 500 */
+                highlight: '#fafafa',/* White */
+                error: '#ef4444',    /* Red 500 */
+                warn: '#f59e0b',     /* Amber 500 */
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #09090b;
+        color: #e4e4e7;
+        font-family: 'JetBrains Mono', monospace;
+        overflow: hidden;
+      }
+      /* Clean Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #3f3f46;
+      }
+      /* Selection */
+      ::selection {
+        background: #27272a;
+        color: #10b981;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

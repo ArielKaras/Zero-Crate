@@ -16,6 +16,14 @@ class BaseMiner(ABC):
             time.sleep(self.min_interval - elapsed)
         self.last_request_time = time.time()
 
+    def get_headers(self) -> dict:
+        """Returns polite headers to identify our traffic."""
+        return {
+            "User-Agent": "ZeroCrate-PortfolioTracker/1.0 (Educational Project; +https://github.com/ArielKaras/Zero-Crate)",
+            "Accept": "application/json, text/html;q=0.9",
+            "Accept-Language": "en-US,en;q=0.5"
+        }
+
     @abstractmethod
     def fetch_games(self) -> List[GameOffer]:
         """Must return a list of GameOffer objects."""

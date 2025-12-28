@@ -1,0 +1,412 @@
+:root {
+  --z-color-void: #09090b;
+  /* Zinc 950 */
+  --z-color-surface: #18181b;
+  /* Zinc 900 */
+  --z-text-hero: #fafafa;
+  /* Zinc 50 */
+  --z-text-primary: #e4e4e7;
+  /* Zinc 200 */
+  --z-text-secondary: #a1a1aa;
+  /* Zinc 400 */
+  --z-text-dim: #52525b;
+  /* Zinc 600 */
+  --z-signal-scout: #10b981;
+  /* Emerald 500 */
+  --z-ease-cinematic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --z-focus-glow: 0 0 20px rgba(255, 255, 255, 0.15);
+  --gutter: clamp(16px, 3vw, 56px);
+}
+
+body {
+  background-color: var(--z-color-void);
+  color: var(--z-text-primary);
+  font-family: 'JetBrains Mono', monospace;
+  margin: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Global Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--z-color-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+/* Layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.main-content {
+  flex-grow: 1;
+  overflow: visible;
+  padding-bottom: 6rem;
+}
+
+/* Header */
+.header {
+  padding: 1.5rem var(--gutter);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1f1f22;
+}
+
+.header-title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--z-text-hero);
+}
+
+.header-status {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--z-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-light {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #333;
+}
+
+.status-light.active {
+  background: var(--z-signal-scout);
+  box-shadow: 0 0 8px var(--z-signal-scout);
+}
+
+/* Hero */
+.hero {
+  padding: 3rem var(--gutter) 2rem;
+}
+
+.hero-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--z-text-dim);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.hero-value {
+  font-size: 4rem;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--z-text-hero);
+}
+
+/* Rails */
+.rail {
+  margin-bottom: 2.5rem;
+}
+
+.rail-title {
+  padding: 0 var(--gutter);
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--z-text-secondary);
+  font-weight: 600;
+}
+
+.rail-cards-container {
+  display: flex;
+  gap: 1rem;
+  padding-block: 2rem;
+  /* Guardrail 2: Breathing room for focus scale */
+  padding-inline: 0;
+  /* Guardrail 1: Edge-to-edge scroller */
+  scroll-padding-inline: var(--gutter);
+  /* Guardrail 1: Alignment offset */
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  /* Phase 17: Magnetic Centering (Gentle) */
+}
+
+.rail-cards-container::before,
+.rail-cards-container::after {
+  content: "";
+  flex: 0 0 var(--gutter);
+  /* Spacer for start/end alignment */
+}
+
+/* Hide scrollbar but keep functionality */
+.rail-cards-container::-webkit-scrollbar {
+  height: 4px;
+}
+
+.rail-cards-container::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 2px;
+}
+
+.rail-empty {
+  padding-left: var(--gutter);
+  color: var(--z-text-dim);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* Cards */
+.z-card {
+  position: relative;
+  width: min(320px, 80vw);
+  /* Phase 17: Safe Peek Rule */
+  height: 158px;
+  flex-shrink: 0;
+  background: var(--z-color-surface);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.2s var(--z-ease-cinematic), box-shadow 0.2s, filter 0.2s;
+  cursor: pointer;
+  scroll-snap-align: center;
+  /* Phase 17: Magnetic Center */
+  scroll-snap-stop: always;
+  /* Phase 17: Premium Stop */
+}
+
+.z-card-idle {
+  opacity: 0.8;
+  filter: grayscale(0.3);
+}
+
+.z-card-focused {
+  transform: scale(1.08);
+  z-index: 10;
+  opacity: 1;
+  filter: grayscale(0);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), var(--z-focus-glow);
+  outline: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.z-card-opened {
+  filter: grayscale(1) brightness(0.4);
+  opacity: 0.5;
+}
+
+.z-card-mystery .art-layer {
+  filter: blur(10px);
+}
+
+/* Card Internals */
+.art-layer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.art-layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.art-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+}
+
+.card-fallback {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, hsl(var(--fallback-hue), 40%, 20%), hsl(var(--fallback-hue), 20%, 10%));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.fallback-title {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+.card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.card-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin: 0;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Metadata Reveal */
+.reveal-on-focus {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.z-card-focused .reveal-on-focus {
+  height: auto;
+  opacity: 1;
+  margin-top: 0.5rem;
+}
+
+.meta-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.platform-badge {
+  font-size: 0.6rem;
+  color: var(--z-text-secondary);
+  text-transform: uppercase;
+}
+
+.time-badge {
+  font-size: 0.6rem;
+  color: #fbbf24;
+}
+
+/* Amber */
+.value-badge {
+  font-size: 0.8rem;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.card-actions {
+  display: none;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.6rem;
+  color: var(--z-text-primary);
+  text-transform: uppercase;
+}
+
+.z-card-focused .card-actions {
+  display: flex;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.modal-content {
+  background: var(--z-color-surface);
+  border: 1px solid #333;
+  padding: 2rem;
+  width: 400px;
+  max-width: 90%;
+  color: var(--z-text-primary);
+}
+
+.modal-title {
+  margin-top: 0;
+  color: var(--z-text-hero);
+}
+
+/* Footers */
+.controls-footer {
+  position: fixed;
+  bottom: 3rem;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+}
+
+.controls-inner {
+  display: inline-flex;
+  gap: 2rem;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 1rem;
+  border-radius: 99px;
+  backdrop-filter: blur(4px);
+}
+
+.controls-inner span {
+  font-size: 0.7rem;
+  color: var(--z-text-secondary);
+  text-transform: uppercase;
+}
+
+kbd {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.diagnostics-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 4px 1rem;
+  background: #000;
+  color: #444;
+  font-size: 10px;
+  text-align: right;
+  border-top: 1px solid #222;
+}
+
+/* 
+VERIFICATION CHECKLIST
+- Scrollbar pinned to viewport right edge
+- Resizing window changes gutter smoothly (clamp works)
+- Ultrawide shows more cards without breaking alignment
+- Focused card never clips top/bottom while scaled
+- Focus centering: first -> middle -> last centers correctly
+*/

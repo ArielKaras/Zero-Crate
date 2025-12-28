@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZeroCrate</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        // Minimal inline script to signal JS is enabled for the diagnostics bar.
+        window.__ZC_JS_ENABLED__ = true;
+    </script>
+</head>
+
+<body>
+
+    <div class="app-container">
+        <!-- HEADER -->
+        <header id="app-header" class="header">
+            <div class="header-title">ZeroCrate</div>
+            <div class="header-status">
+                {% if state.scout.status == 'watching' %}
+                <div class="status-light active"></div>
+                Scout Online <span class="divider">|</span>
+                <span class="streak-active">Streak {{ state.hero.streak }}</span>
+                {% else %}
+                <div class="status-light"></div>
+                Scout Offline
+                {% endif %}
+            </div>
+        </header>
+
+        <main class="main-content no-scrollbar">
+            <!-- HERO (COLLECTION VALUE) -->
+            <section id="player-hud" class="hero">
+                <span class="hero-label">Collection Value</span>
+                <h1 class="hero-value" id="hero-value-display">${{ "%.2f"|format(state.hero.collection_value) }}</h1>
+            </section>
+
+            <!-- CONTENT RAILS (Server-Side Rendered) -->
+            <section id="content-rails" class="space-y-8">
+                {% for rail in state.rails %}
+                <div class="rail" data-rail-id="{{ rail.id }}">
+                    <h2 class="rail-title">{{ rail.title }}</h2>
+                    <div class="rail-cards-container">
+                        {% if rail.cards %}
+                        {% for offer in rail.cards %}
+                        <div class="z-card {% if offer.offer_type == 'Mystery' %}z-card-mystery{% elif offer.opened %}z-card-opened{% else %}z-card-idle{% endif %}"
+                            data-id="{{ offer.id }}" data-url="{{ offer.url }}">
+                            <div class="art-layer">
+                                {% if offer.cover_image_url %}
+                                <img src="{{ offer.cover_image_url }}" alt="{{ offer.title }} cover art"
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="card-fallback" style="display:none;"></div>
+                                {% else %}
+                                <div class="card-fallback"></div>
+                                {% endif %}
+                                <div class="art-overlay"></div>
+                            </div>
+                            <div class="card-info">
+                                <h3 class="card-title">{{ offer.title }}</h3>
+                                <div class="reveal-on-focus">
+                                    <div class="meta-left">
+                                        <span class="platform-badge">{{ offer.platform }}</span>
+                                        {% if offer.end_time_rel %}
+                                        <span class="time-badge">{{ offer.end_time_rel }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <span class="value-badge">${{ "%.2f"|format(offer.original_price) }}</span>
+                                </div>
+                                <div class="card-actions">
+                                    <span class="action-prompt">[ENTER] Open</span>
+                                    <span class="action-prompt">[I] Why</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="rail-empty">{{ rail.empty_message | default("Scout is scanning...") }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+        </main>
+    </div>
+
+    <!-- CONTROLS & DIAGNOSTICS FOOTERS -->
+    <footer class="controls-footer">
+        <div class="controls-inner">
+            <span><kbd>ARROWS</kbd> Navigate</span>
+            <span><kbd>ENTER</kbd> Open</span>
+            <span><kbd>I</kbd> Why</span>
+            <span><kbd>H</kbd> History</span>
+        </div>
+    </footer>
+    <footer class="diagnostics-footer">
+        <span>Render OK</span>
+        <span class="divider">·</span>
+        <span>JS: <span id="diag-js-status"><noscript>off</noscript></span></span>
+    </footer>
+
+    <!-- MODALS -->
+    <div id="info-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 class="modal-title">Signal Intelligence</h2>
+            <div id="info-modal-body" class="space-y-6">Loading...</div>
+            <div class="modal-close-prompt">Press ESC to close</div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', path='/app.js') }}"></script>
+</body>
+
+</html>

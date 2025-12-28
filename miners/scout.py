@@ -9,8 +9,9 @@ import re
 import html
 from typing import List, Optional
 from core.models import GameOffer, Rarity
+from miners.base import BaseMiner
 
-class Scout:
+class Scout(BaseMiner):
     # RSS Feed for "New" posts to catch deals immediately
     RSS_URL = "https://www.reddit.com/r/FreeGameFindings/new/.rss"
     
@@ -21,6 +22,7 @@ class Scout:
     ]
 
     def __init__(self):
+        super().__init__("Scout Signal")
         self.feed = None
 
     def _is_garbage(self, title: str) -> bool:
@@ -108,7 +110,7 @@ class Scout:
         
         # Parse the RSS Feed
         try:
-            feed = feedparser.parse(self.RSS_URL)
+            feed = feedparser.parse(self.RSS_URL, request_headers=self.get_headers())
         except Exception as e:
             print(f"⚠️  Scout Link Error: {e}")
             return []

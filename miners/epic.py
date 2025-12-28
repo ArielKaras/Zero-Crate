@@ -20,7 +20,7 @@ class EpicMiner(BaseMiner):
         print(f"⛏️  {self.name}: Connecting to API...")
         
         try:
-            response = requests.get(self.api_url)
+            response = requests.get(self.api_url, headers=self.get_headers())
             data = response.json()
             games = data['data']['Catalog']['searchStore']['elements']
             

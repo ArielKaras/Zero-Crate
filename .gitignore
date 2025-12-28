@@ -47,3 +47,8 @@ data/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Logs & Temporary Files
+*.log
+output.txt
+nul

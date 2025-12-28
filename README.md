@@ -66,7 +66,16 @@ A premium, dark-mode/glassmorphism interface built for visual clarity.
 - **Frontend**: Jinja2 (SSR) + Vanilla JS (Efficiency)
 - **DevOps**: Multi-Stage Docker Builds, Feature-Branch Workflow
 
+
 ---
+
+## ⚖️ Legal Disclaimer
+
+**ZeroCrate** is a **Deal Aggregation & Portfolio Tracking** tool. It is not affiliated with, endorsed by, or sponsored by Valve Corporation (Steam), Epic Games, Inc., or CD PROJEKT S.A. (GOG).
+
+- **Data Sources**: All asset data is retrieved from publicly available sources or community signals (e.g., Reddit).
+- **Terms of Service**: Users are responsible for complying with the Terms of Service of the respective platforms. This tool does not automate the purchasing or claiming process on third-party stores; it strictly manages a *local* inventory simulation.
+- **No Warranty**: The software is provided "as is", without warranty of any kind.
 
 ## 📜 License
 Copyright © 2025 Arielsv Operations. All Rights Reserved.
